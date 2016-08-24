@@ -1,0 +1,96 @@
+---
+layout: post
+title:  "The trade-off between tight and loose coupling in distributed systems"
+date:   2016-08-24 16:17:00 +0200
+categories: distributed-systems
+---
+
+estimated reading time: XX minutes.
+
+## Introduction 
+At the moment I'm looking into the programming of distributed systems. To get an overview over the huge amount of technologies, frameworks and mental concepts I decided to write an article about one of the aspects that I have seen multiple times during my research: coupling. The goal of this article is to order my thoughts on the subject and to examine different systems from a viewpoint of coupling between components.
+
+
+<!-- TODO Überblick über den Artikel -->
+
+<!--
+## The term "coupling"
+The software quality metrics of coupling and cohesion were invented by Larry Constantine in the late 1960s as part of Structured Design, based on characteristics of “good” programming practices that reduced maintenance and modification costs. Structured Design, including cohesion and coupling, were published in the article Stevens, Myers & Constantine (1974) and the book Yourdon & Constantine (1979), and the latter subsequently became standard terms.
+
+Ursprünglich kommt die Idee des couplings aus der objektorientierung und beschreibt, wie Abhängigkeiten zwischen Einzelnen Systemkomponenten ausgedrückt werden können. (Ein Beispiel für Tight Coupling ist Code in einer Klasse A der von der Implementierung einer anderen Klasse B direkt abhängig ist. Allerdings begegnet einem das konzept des Couplings immer wieder, in unterschiedlichen Spezialisierungen und auf unterschiedlichen Ebenen des Technologie-Stacks. -->
+
+
+In the context of this article i want to define coupling as the the *degree of dependence between system components*. In other words, if we change one component of our systems, do we break the system in other other places? When talking about Web-Systems this also means: Can we deploy parts of our System without downtime? This article tries to focus on the technical aspects of coupling. Regardless of the chosen language or system building-blocks it's always possible to introduce semantic coupling between components (the term used in [this article](http://www.carlopescio.com/2010/11/notes-on-software-design-chapter-12.html) is "software entanglement").
+
+
+## Time Coupling (sync vs. async)
+The first example I want to talk about is **MPI** ([wikipedia](https://en.wikipedia.org/wiki/Message_Passing_Interface)): It's used in the HPC context to build parallel application and for me its the archetype of a tightly coupled distributed system: The User is assumed to have full control over the software system and the administrative domain. Interaction between processes is modelled explicitly as a pair of <code>MPI_Send</code> and <code>MPI_Recv</code> method calls. Notice that both the send and the receive call block in MPI. To relax this the first step is to build an asynchronous *send* method. This leads us to an erlang style of communication: While the sender sends his message with something along the lines of <code>A ! B {self(), message} </code> the receiver calls a blocking <code>receive</code> (in erlang this is a build-in statement) that blocks until a message is received. If we want to make the receiving end asynchronously too, we end up with a *dispatcher-worker-thread* pattern: one thread does nothing else than receiving input and delegating it to a pool of worker threads for further processing.
+<!-- TODO:
+ - Buffer/MessageQueues
+ - Technical Term: control flow
+ - Trade-Off: Complexity through Callbacks/Continuations, Transactional semantics
+ -->
+
+## Identification
+When we talk about communication between system components we have to decide two things:
+ - Are our components logical or physical entities in the system? If they are logical, how are they mapped to physical nodes?
+ - How are components adressed in the system/How are the communication endpoints described?
+<!-- TODO
+load-balancing, srv-records, logische entitäten vs netzwerkendpunkte, 
+Message Queues/Buffers
+-->
+
+## Protocols
+<!-- TODO 
+protobuf, json, webservices, rmi, trennung interface/implementation, gleiche sprache vs unterschiedliche sprachen (kompromiss: jvm)
+binary dependencies, self describing protocols, changing the data format 
+-->
+
+
+## Deployment
+
+<!--
+TODO
+Verschiedene Aspekte: Administrative Kontrolle, Security, verwendete sprachen.
+Rich Hickey: Language of the system: holistic vs heterogenious
+Heterogener ansatz: unterschiedliche Binaries, zusammengehalten durch skripte (Orchestration?)
+ - Binäre abhängigkeiten: RMI vs REST
+
+Verschiedene Modelle der Systementwicklung:
+    - Ein großes Source-Artefakt das alle beteiligten generiert
+    - Ein "shared" source Artefakt das für alle beteiligten generiert wird aber dann unabhängig existiert
+    - Definition der Kommunikation auf "napkin"
+-->
+
+
+<!--
+Nun bleibt die Frage was gewinnen wir durch tight coupling? Was durch loose Coupling? Und was sind die jeweiligen Nachteile?
+
+## Der Trade-off:
+Loose Coupling:
+positiv: Scalabilty, Orchestration, independence (wichtig für Firmen mit mehreren Teams)
+negativ: Versionierung, Heterogenität, Laufzeitfehler, schwereres Debugging (distributed tracing), größere Komplexität: abstraktion des Interfaces liegt im Auge des Betrachters (abstraktion als gedankenvorgang)
+Performance Overhead: Sowohl zur Laufzeit (mehr Datenkonversationen, etc) als auch zur Design Zeit (mehr mentaler Overhead durch mehr ausnahmebehandlung etc, mehr testaufwand, größere Systeme)
+
+
+
+
+Tight Coupling:
+Binäre Abhängigkeiten: vorteil: statische Analyse, nachteil: dependency hell
+negativ: full system deployments, 
+
+
+TODO: Error handling? Ist das ein Aspekt von Coupling?
+
+
+TODO: Zusammenfassung
+TODO: Dies ist mein erster Beitrag und es kann gut sein das vieles von dem was ich erzähle quatsch ist. Deswegen freue ich mich über feedback!
+
+TODO anmerkungen:
+1) Ich möchte hier explizit auf Coupling zwischen verschiedenen abgetrennten Komponenten eingehen, d.h. kein Shared Memory, kein OO)
+2) Ich weiß das RMI auch nonblocking kann (Isend, Irecv). Mir geht es darum die vereinfachte Version von RMI als extrembeispiel zu nehmen (Im gegensatz zu obskureren beispielen wie der occam language https://en.wikipedia.org/wiki/Occam_(programming_language)
+
+
+--> 
+
+-mm
