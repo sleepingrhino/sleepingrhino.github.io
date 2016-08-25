@@ -24,7 +24,8 @@ In the context of this article i want to define coupling as the the *degree of d
 
 
 ## Time Coupling (sync vs. async)
-The first example I want to talk about is **MPI** ([wikipedia](https://en.wikipedia.org/wiki/Message_Passing_Interface)): It's used in the HPC context to build parallel application and for me its the archetype of a tightly coupled distributed system: The User is assumed to have full control over the software system and the administrative domain. Interaction between processes is modelled explicitly as a pair of <code>MPI_Send</code> and <code>MPI_Recv</code> method calls. Notice that both the send and the receive call block in MPI. To relax this the first step is to build an asynchronous *send* method. This leads us to an erlang style of communication: While the sender sends his message with something along the lines of <code>A ! B {self(), message} </code> the receiver calls a blocking <code>receive</code> (in erlang this is a build-in statement) that blocks until a message is received. If we want to make the receiving end asynchronously too, we end up with a *dispatcher-worker-thread* pattern: one thread does nothing else than receiving input and delegating it to a pool of worker threads for further processing.
+The first example I want to talk about is **MPI** ([wikipedia](https://en.wikipedia.org/wiki/Message_Passing_Interface)): It's used in the HPC context to build parallel application and for me its the archetype of a tightly coupled distributed system: The User is assumed to have full control over the software system and the administrative domain. Interaction between processes is modelled explicitly as a pair of <code>MPI_Send</code> and <code>MPI_Recv</code> method calls. Notice that both the send and the receive call block in MPI. To relax this the first step is to build an asynchronous *send* method. This leads us to an erlang style of communication: While the sender sends his message with something along the lines of <code>A ! B {self(), message} </code>, the receiver calls a blocking <code>receive</code> (in erlang this is a build-in statement) that blocks until a message is received. If we want to make the receiving end asynchronously too, we end up with a *dispatcher-worker-thread* pattern: one thread does nothing else than receiving input and delegating it to a pool of worker threads for further processing. A middle ground between these modes of operation is *buffered communication* (this is the model that go enables with buffered channels): We introduce a notion of a channel/message queue with a fixed size and block the sender every time the channel is "full".
+
 <!-- TODO:
  - Buffer/MessageQueues
  - Technical Term: control flow
@@ -34,13 +35,23 @@ The first example I want to talk about is **MPI** ([wikipedia](https://en.wikipe
 ## Identification
 When we talk about communication between system components we have to decide two things:
  - Are our components logical or physical entities in the system? If they are logical, how are they mapped to physical nodes?
- - How are components adressed in the system/How are the communication endpoints described?
+ - How are components addressed in the system/How are the communication endpoints described?
+
+Let's take a micro-service-based system as an example: We identify services by some kind of naming-schema (most commonly DNS). This maps a string to an IP-endpoint. Note that DNS as an identification system is very flexible: using SRV records we can group multiple physical locations to 
+
+### Routing?
+
 <!-- TODO
 load-balancing, srv-records, logische entitäten vs netzwerkendpunkte, 
 Message Queues/Buffers
 -->
 
 ## Protocols
+The biggest field to look at is the aspects of the communication protocols between system components.
+We look at communication protocols at two levels:
+ -syntactically: data-protocols etc
+ -semantic encoding: self-describing etc
+
 <!-- TODO 
 protobuf, json, webservices, rmi, trennung interface/implementation, gleiche sprache vs unterschiedliche sprachen (kompromiss: jvm)
 binary dependencies, self describing protocols, changing the data format 
@@ -48,6 +59,28 @@ binary dependencies, self describing protocols, changing the data format
 
 
 ## Deployment
+Almost every system is subject to changing requirements. The term deployment is used to describe injecting changed source into a running system. Coupling in deployment has multiple different facettes: administrative control, security, heterogenity of available hardware and software components. In this context I tried to build three archetypical models to describe the relationship between the system components and the run-time architecture of our system.
+
+The first approach is to model the whole system in a source artifact and then generate all involved components from that artifact:
+
+![Generation from a full system definition]({{ site.url }}/static/img/full-system-generation.png)
+
+This represents the highest amount of deployment coupling: a system can only be deployed as a whole, changes are associated with some kind of downtime. On the other hand, the system state is always consistent: communication missmatches can be detected by compile time analyzation. I couldn't come up with a widespread technology that uses this, but an example for a global approach is the [chor language](http://www.chor-lang.org/): Communication between participating system component is described in an abstract way and the compiler generates **Jolie** source code artifacts from it.
+
+<!-- TODO advantage: explicitly modelled communication is easier to debug, reason about -->
+
+The next approach is the definition of some kind of **shared source artifact** that holds the information necessary to generate communication ports between components. This approach is often seen in distributed systems and ranges from the good old [CORBA IDL](http://www.omg.org/gettingstarted/omg_idl.htm) to [Android](https://developer.android.com/guide/components/aidl.html) or [protobuf](https://developers.google.com/protocol-buffers/docs/proto3).
+
+![Independent Deployment with shared source artifacts]({{ site.url }}/static/img/idl-based-communication.png)
+
+The advantage of this approach is that components can be in different languages, 
+
+<!-- TODO coupling/versioning mismatches, ...
+
+
+![Independent Deployment]({{ site.url }}/static/img/standardized-communication.png)
+foo
+
 
 <!--
 TODO
@@ -62,6 +95,11 @@ Verschiedene Modelle der Systementwicklung:
     - Definition der Kommunikation auf "napkin"
 -->
 
+<!-- TODO
+## Examples
+REST: TCP/HTTP/...
+RMI
+-->
 
 <!--
 Nun bleibt die Frage was gewinnen wir durch tight coupling? Was durch loose Coupling? Und was sind die jeweiligen Nachteile?
@@ -93,4 +131,4 @@ TODO anmerkungen:
 
 --> 
 
--mm
+-MM

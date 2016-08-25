@@ -19,7 +19,7 @@ description: > # this means to ignore newlines until "baseurl:"
   A blog about everything in life
 baseurl: ""
 url: "http://sleepingrhino.com"
-
+#url: "http://localhost:4000"
 
 # Build settings
 markdown: kramdown
