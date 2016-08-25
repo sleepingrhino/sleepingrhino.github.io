@@ -1,8 +1,13 @@
 ---
 layout: post
-title:  "Programming 2"
+title:  "On programming 2"
 date:   2016-08-25 12:00:00 +0200
 ---
+
+
+
+
+
 
 And you can actually see that in action because the physical machines
 changed over time. For instance they got multiple CPU cores so they
