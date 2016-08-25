@@ -46,6 +46,20 @@ it seems to you, as though you are programming the real machine.
 We've created a perfect illusion which solved our problem of how to
 program these real machines we had. A simple yet powerful trick.
 
+So what I would like for anyone who thinks about the topic of programming
+or programming languages to keep in mind is that the languages which we
+use to write our programs are defined on abstract, virtual and often times
+non-deterministic machines and we merely implement those languages using
+the hardware and possibilities currently available to us in order to
+emulate the intended behavior of the fantasy machine on which they are
+actually supposed to be run on.
+
+This mind set will allow you to clearly seperate the language specification
+from its implementation with all its nuances and implementation details.
+It will also allow you to on the one hand think about the language itself
+and what language features the programmer needs in order to express his
+intent and on the other hand how to best implement those features.
+
 
 -FL
 
