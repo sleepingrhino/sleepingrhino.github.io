@@ -9,7 +9,7 @@ we established that the programs we write are for an abstract machine.
 So what are the basic building blocks that imperative languages give us
 for programming that abstract machine?
 
-Let's take a look at a language like C for instance. What can we do in C programs?
+Let's take a look at a language like C. What can we do in C programs?
 What basic concepts are there?
 
 Well to me these are the basic concepts available:
@@ -34,7 +34,7 @@ How do you...
 
 All you can do is calculate something using basic maths, loops and
 if-branching, use variables to store, name and reuse results and
-separate your code into functions and call them using your variables
+separate your code into functions which you can call using your variables
 as parameters which are either copies of their values or their addresses
 depending on whether you want to work in place or not.
 
@@ -42,18 +42,17 @@ This is great because this *is* computation. This is the bread and butter
 that gives you Turing completeness and allows you to express *any*
 computation imaginable.
 
-This is also what is completely irrelevant for most
-applications today.
+This is also what is mostly irrelevant for applications today.
 
 So how do you do all those things we usually do? How do you read user
 input and write to files or connect to a host over the internet?
 Well...you call a library function. A library function that somehow
-does what you want, sort of like a side effect. It's almost like a foreign
-function interface but with the interface being the API of your operating
-system (POSIX?).
+does what you want but sort of like a side effect. It's almost like a
+foreign function interface but with the interface being the API of your
+operating system (POSIX?) and a napkin describing what will happen if
+you call the function.
 
-You can easily see that because how do you identify a
-*system call* in a C program?
+Consider the following snippet:
 
     int main() {
       a();
