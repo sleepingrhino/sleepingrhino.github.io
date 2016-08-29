@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "On programming 1 : abstract machines"
+title:  "On programming 1 // abstract machines"
 date:   2016-08-25 12:00:00 +0200
 ---
 The programming languages we use today are defined for an abstract,
