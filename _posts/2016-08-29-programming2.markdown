@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "On programming 2"
+title:  "On programming 2 : language boundaries"
 date:   2016-08-29 12:00:00 +0200
 ---
 
