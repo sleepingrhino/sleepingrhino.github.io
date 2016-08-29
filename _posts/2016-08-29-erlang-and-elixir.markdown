@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Erlang and Elixir"
+title:  "Evaluating Erlang and Elixir"
 date:   2016-08-29 14:35:00 +0200
 categories: languages
 ---
@@ -14,9 +14,9 @@ Some of the things I spoke about in the last paragraph are addressed by the Elix
 
 ### Closing Remarks
 
-Although Elixir feels like a step forward from erlang, there are still some issues I've had when looking over it. Please keep in mind that my investigation of both Erlang and Elixir as Languages is still in it's infancy: Problems listed here are possibly due to my ignorance of the erlang eco-system and the capabilities of otp.
+Although Elixir feels like a step forward from Erlang, there are still some issues I've had when looking over it. Please keep in mind that my investigation of both Erlang and Elixir as languages is still in it's infancy: Problems listed here are possibly due to my ignorance of the Erlang eco-system and the capabilities of OTP.
 
-That being said I still miss an error model for network failures in erlang: all we can see is that a process has 'died': We have no knowledge about this death being due to a logical error or a network failure. This could be problematic when building partition-tolerant databases or when the process hasnt actually died and comes back to the network.
+That being said I still miss an error model for network failures in Erlang: all we can see is that a process has 'died': We have no knowledge about this death being due to a logical error or a network failure. This could be problematic when building partition-tolerant databases or when the process hasn't actually died and comes back to the network.
 
 Furthermore the compiler errors still don't point me to the right fix (a problem that at the moment is [actively worked on in the rust community](https://blog.rust-lang.org/2016/08/10/Shape-of-errors-to-come.html)). I know that this is kind of nitpicking but it presents a barrier for developers new to the environment and therefore could hinder adoption.
 
