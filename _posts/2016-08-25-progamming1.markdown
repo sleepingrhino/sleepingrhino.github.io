@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "On programming 1"
+title:  "On programming 1: abstract machines"
 date:   2016-08-25 12:00:00 +0200
 ---
 The programming languages we use today are defined for an abstract,
@@ -55,7 +55,7 @@ anomalies.
 We effectively broke our equivalence promise.
 Which is why most languages have also changed the internal model
 of their abstract machine over time. This might all seem like an
-uninportant detail but it actually isn't.
+unimportant detail but it actually isn't.
 
 
 \\
@@ -67,7 +67,7 @@ the hardware and possibilities currently available to us in order to
 emulate the intended behavior of the abstract machine on which they are
 actually supposed to be run on.
 
-This mind set will allow you to clearly seperate the language specification
+This mind set will allow you to clearly separate the language specification
 from its implementation and it will also allow you to, on the one hand,
 think about the language itself and what language features the programmer
 needs in order to express his intent and on other hand how to utilize
