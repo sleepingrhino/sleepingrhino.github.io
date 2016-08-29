@@ -128,6 +128,16 @@ TODO anmerkungen:
 1) Ich möchte hier explizit auf Coupling zwischen verschiedenen abgetrennten Komponenten eingehen, d.h. kein Shared Memory, kein OO)
 2) Ich weiß das RMI auch nonblocking kann (Isend, Irecv). Mir geht es darum die vereinfachte Version von RMI als extrembeispiel zu nehmen (Im gegensatz zu obskureren beispielen wie der occam language https://en.wikipedia.org/wiki/Occam_(programming_language)
 
+Coupling:
+Wie wirken sich veränderungen auf andere Systemkomponenten aus.
+
+
+
+ If the process you're talking to is on a node that disappears due to some network failure, we handle it as naturally as any local crash. 
+
+Linking and monitoring across nodes can be dangerous. In the case of a network failure, all remote links and monitors are triggered at once. This might then generate thousands and 
+
+
 
 --> 
 
