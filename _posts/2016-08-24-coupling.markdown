@@ -1,0 +1,21 @@
+---
+layout: post
+title:  "Independence vs Controllability in distributed systems"
+date:   2016-08-24 16:17:00 +0200
+categories: distributed-systems
+---
+
+At the moment I'm looking into the programming of distributed systems. One aspect I've stumbled over is the degree of *coupling* between system components. In this article I want to try to outline the fundamental trade-off that has to be made: independence vs controllability.
+
+When building a distributed system we have two models of thinking about it:
+When we think about the system as a whole (**system level**), we can define communication paths between system components and model the distribution on physical hardware. An example would be: In order to see the profile page, a user has to be logged in: The webserver communicates with the login-service and with some kind of user-information-service. Typically this is what you see drawn on whiteboards in the form of graphs.
+
+On the other hand you build the component itself and think about the **unit level**: You define communication inputs on source code level (for example you design a REST url-paths, or messages an actor can receive) and outputs (sending of messages) as logic inside your unit. The system-level communication paths are spread over multiple source files and (in the case that nobody documented them) have to be reverse-engineered if a bug occurs. Furthermore no tool warns you if you break one of these paths. That sounds bad right? Mabye we can fix this by building our system as a monolithic application (having one code base) that gets distributed on multiple nodes at runtime.
+
+The problem with this approach is, that now, every time somebody makes changes to our code base, we have to re-deploy our system. Furthermore developers start to build intertwined components due to the ease of communication between the components (think about JEE remote bean definitions and calling). And if we have multiple teams working on that code-base, who deals with conflicting versions of our global system description? (This is what leads us to [Conway's Law](https://en.wikipedia.org/wiki/Conway%27s_law) by the way).
+
+So in my opinion the fundamental trade-off is this: do we want to explicitly model our whole system and reason about it at compile time or do we want independently deployable components but loose the ability to predict errors in our communication patterns?
+
+The question now is: Can we mitigate this trade-off? Can we build tools that can connect the system and the unit layer, while still leaving enough independence for each component? Can we compromise in what we can achieve for a middle course between these two? I'd love to hear your feedback!
+
+-MM
