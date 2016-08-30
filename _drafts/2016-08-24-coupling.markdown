@@ -5,26 +5,37 @@ date:   2016-08-24 16:17:00 +0200
 categories: distributed-systems
 ---
 
-estimated reading time: XX minutes.
+At the moment I'm looking into the programming of distributed systems. One aspect I've stumbled over is the degree of *coupling* between system components. In this article I want to try to outline the fundamental trade-off that has to be made: independability vs controllability.
+
+When building a distributed system we have two models of thinking about it:
+When we think about the system as a whole (**system level**), we can define communication paths between system components, and model the distribution on physical hardware. An example would be: In order to see the profile page, a user has to be logged in: The Webserver communicates with the login-service and afterwards probably with some kind of user-information-service. Typically this is what you see drawn on whiteboards in the form of graphs.
+
+On the other hand you build the component itself and think about the **unit level**: You define communication inputs on source code level (for example you design a REST Url-paths, or messages an actor can receive) and outputs (sending of messages) as logic inside your unit. The system-level communication paths are spread over multiple source files and (in the case that nobody documented them) have to be reverse-engineered if a bug occurs. Furthermore no tool warns you if you break one of these paths. That sounds bad right? Mabye we can fix this by building our system as a monolithic application (having one code base) that gets distributed on multiple nodes at runtime.
+
+The problem with this approach is, that now, every time somebody makes changes to our code base, we have to re-deploy our system. Furthermore developers start to build intertwined components due to the ease of communication between the components (think about JEE remote bean definitions and calling). And if we have multiple teams working on that code-base, who deals with conflicting versions of our global system description? (This is what leads us to [Conway's Law](https://en.wikipedia.org/wiki/Conway%27s_law) by the way).
+
+So in my opinion the fundamental trade-off is this: do we want to explicitly model our whole system and reason about it at compile time or do we want independently deployable components but loose the ability to predict errors in our communication patterns?
+
+
+
+
+
+<!--estimated reading time: XX minutes.
 
 ## Introduction 
 At the moment I'm looking into the programming of distributed systems. To get an overview over the huge amount of technologies, frameworks and mental concepts I decided to write an article about one of the aspects that I have seen multiple times during my research: coupling. The goal of this article is to order my thoughts on the subject and to examine different systems from a viewpoint of coupling between components.
 
-
-<!-- TODO Überblick über den Artikel -->
-
-<!--
 ## The term "coupling"
 The software quality metrics of coupling and cohesion were invented by Larry Constantine in the late 1960s as part of Structured Design, based on characteristics of “good” programming practices that reduced maintenance and modification costs. Structured Design, including cohesion and coupling, were published in the article Stevens, Myers & Constantine (1974) and the book Yourdon & Constantine (1979), and the latter subsequently became standard terms.
 
-Ursprünglich kommt die Idee des couplings aus der objektorientierung und beschreibt, wie Abhängigkeiten zwischen Einzelnen Systemkomponenten ausgedrückt werden können. (Ein Beispiel für Tight Coupling ist Code in einer Klasse A der von der Implementierung einer anderen Klasse B direkt abhängig ist. Allerdings begegnet einem das konzept des Couplings immer wieder, in unterschiedlichen Spezialisierungen und auf unterschiedlichen Ebenen des Technologie-Stacks. -->
+Ursprünglich kommt die Idee des couplings aus der objektorientierung und beschreibt, wie Abhängigkeiten zwischen Einzelnen Systemkomponenten ausgedrückt werden können. (Ein Beispiel für Tight Coupling ist Code in einer Klasse A der von der Implementierung einer anderen Klasse B direkt abhängig ist. Allerdings begegnet einem das konzept des Couplings immer wieder, in unterschiedlichen Spezialisierungen und auf unterschiedlichen Ebenen des Technologie-Stacks.
 
 
 In the context of this article i want to define coupling as the the *degree of dependence between system components*. In other words, if we change one component of our systems, do we break the system in other other places? When talking about Web-Systems this also means: Can we deploy parts of our System without downtime? This article tries to focus on the technical aspects of coupling. Regardless of the chosen language or system building-blocks it's always possible to introduce semantic coupling between components (the term used in [this article](http://www.carlopescio.com/2010/11/notes-on-software-design-chapter-12.html) is "software entanglement").
 
 
 ## Time Coupling (sync vs. async)
-The first example I want to talk about is **MPI** ([wikipedia](https://en.wikipedia.org/wiki/Message_Passing_Interface)): It's used in the HPC context to build parallel application and for me its the archetype of a tightly coupled distributed system: The User is assumed to have full control over the software system and the administrative domain. Interaction between processes is modelled explicitly as a pair of <code>MPI_Send</code> and <code>MPI_Recv</code> method calls. Notice that both the send and the receive call block in MPI. To relax this the first step is to build an asynchronous *send* method. This leads us to an erlang style of communication: While the sender sends his message with something along the lines of <code>A ! B {self(), message} </code>, the receiver calls a blocking <code>receive</code> (in erlang this is a build-in statement) that blocks until a message is received. If we want to make the receiving end asynchronously too, we end up with a *dispatcher-worker-thread* pattern: one thread does nothing else than receiving input and delegating it to a pool of worker threads for further processing. A middle ground between these modes of operation is *buffered communication* (this is the model that go enables with buffered channels): We introduce a notion of a channel/message queue with a fixed size and block the sender every time the channel is "full".
+The first example I want to talk about is **MPI** ([wikipedia](https://en.wikipedia.org/wiki/Message_Passing_Interface)): It's used in the HPC context to build parallel application and for me its the archetype of a tightly coupled distributed system: The User is assumed to have full control over the software system and the administrative domain. Interaction between processes is modelled explicitly as a pair of <code>MPI_Send</code> and <code>MPI_Recv</code> method calls. Notice that both the send and the receive call block in MPI. To relax this the first step is to build an asynchronous *send* method. This leads us to an erlang style of communication: While the sender sends his message with something along the lines of <code>A ! B {self(), message} </code>, the receiver calls a blocking <code>receive</code> (in erlang this is a build-in statement) that blocks until a message is received. If we want to make the receiving end asynchronously too, we end up with a *dispatcher-worker-thread* pattern: one thread does nothing else than receiving input and delegating it to a pool of worker threads for further processing. A middle ground between these modes of operation is *buffered communication* (this is the model that go enables with buffered channels): We introduce a notion of a channel/message queue with a fixed size and block the sender every time the channel is "full".-->
 
 <!-- TODO:
  - Buffer/MessageQueues
@@ -32,7 +43,7 @@ The first example I want to talk about is **MPI** ([wikipedia](https://en.wikipe
  - Trade-Off: Complexity through Callbacks/Continuations, Transactional semantics
  -->
 
-## Identification
+<!-- ## Identification
 When we talk about communication between system components we have to decide two things:
  - Are our components logical or physical entities in the system? If they are logical, how are they mapped to physical nodes?
  - How are components addressed in the system/How are the communication endpoints described?
@@ -40,25 +51,23 @@ When we talk about communication between system components we have to decide two
 Let's take a micro-service-based system as an example: We identify services by some kind of naming-schema (most commonly DNS). This maps a string to an IP-endpoint. Note that DNS as an identification system is very flexible: using SRV records we can group multiple physical locations to 
 
 ### Routing?
-
-<!-- TODO
+TODO
 load-balancing, srv-records, logische entitäten vs netzwerkendpunkte, 
 Message Queues/Buffers
 -->
 
-## Protocols
+<!-- ## Protocols
 The biggest field to look at is the aspects of the communication protocols between system components.
 We look at communication protocols at two levels:
  -syntactically: data-protocols etc
  -semantic encoding: self-describing etc
-
-<!-- TODO 
+TODO 
 protobuf, json, webservices, rmi, trennung interface/implementation, gleiche sprache vs unterschiedliche sprachen (kompromiss: jvm)
 binary dependencies, self describing protocols, changing the data format 
 -->
 
 
-## Deployment
+<!-- ## Deployment
 Almost every system is subject to changing requirements. The term deployment is used to describe injecting changed source into a running system. Coupling in deployment has multiple different facettes: administrative control, security, heterogenity of available hardware and software components. In this context I tried to build three archetypical models to describe the relationship between the system components and the run-time architecture of our system.
 
 The first approach is to model the whole system in a source artifact and then generate all involved components from that artifact:
@@ -67,7 +76,7 @@ The first approach is to model the whole system in a source artifact and then ge
 
 This represents the highest amount of deployment coupling: a system can only be deployed as a whole, changes are associated with some kind of downtime. On the other hand, the system state is always consistent: communication missmatches can be detected by compile time analyzation. I couldn't come up with a widespread technology that uses this, but an example for a global approach is the [chor language](http://www.chor-lang.org/): Communication between participating system component is described in an abstract way and the compiler generates **Jolie** source code artifacts from it.
 
-<!-- TODO advantage: explicitly modelled communication is easier to debug, reason about -->
+TODO advantage: explicitly modelled communication is easier to debug, reason about
 
 The next approach is the definition of some kind of **shared source artifact** that holds the information necessary to generate communication ports between components. This approach is often seen in distributed systems and ranges from the good old [CORBA IDL](http://www.omg.org/gettingstarted/omg_idl.htm) to [Android](https://developer.android.com/guide/components/aidl.html) or [protobuf](https://developers.google.com/protocol-buffers/docs/proto3).
 
@@ -75,14 +84,13 @@ The next approach is the definition of some kind of **shared source artifact** t
 
 The advantage of this approach is that components can be in different languages, 
 
-<!-- TODO coupling/versioning mismatches, ...
+TODO coupling/versioning mismatches, ...
 
 
 ![Independent Deployment]({{ site.url }}/static/img/standardized-communication.png)
 foo
 
 
-<!--
 TODO
 Verschiedene Aspekte: Administrative Kontrolle, Security, verwendete sprachen.
 Rich Hickey: Language of the system: holistic vs heterogenious
