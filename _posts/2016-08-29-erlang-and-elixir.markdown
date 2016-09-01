@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "Evaluating Erlang and Elixir"
+title:  "Language Remarks: Erlang and Elixir"
 date:   2016-08-29 14:35:00 +0200
-categories: languages
+categories: language-remarks
 ---
 
 Over the course of the last two weeks I looked at both [Erlang](https://www.erlang.org/) and [Elixir](http://elixir-lang.org/). The ideas of Erlang (namely building a language on the abstract notion of processes) are still highly valuable and inspired many of the technologies used in recent cloud development tools. Nonetheless the language has some quirks and bumps that always kind of bothered me: On the syntax side, I've never gotten around the usage of punctuation: Although Joe Armstrong explains in the'"Programming Erlang' book [1] that it is used 'similar to the use in the english language', the overloading of the comma and semicolon in guards and as function clause delimiter is something I still trip over. Furthermore I personally dislike the error messages given by the system as they are not very helpful in fixing the problem (One example being the <code>** exception error: no match of right hand side value</code> that comes up every time something goes wrong with a "="). And especially in the beginning I often made the mistake of confusing atoms and variables in my source code (The difference being a capital first letter for the latter), and the compiler messages weren't very helpful either. When watching the ['Why the Cool Kids Don't Use Erlang'](https://www.youtube.com/watch?v=3MvKLOecT1I) talk by Garret Smith I found out I was not alone with some of my troubles.
