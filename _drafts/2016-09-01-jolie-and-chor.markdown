@@ -8,3 +8,11 @@ categories: language-remarks
 - What is Jolie, what are it's defining features in my view (communication ports as a first-class citizen)
 - What is Chor, how does it relate to Jolie
 - How do these both relate to the Independence vs Controllability theme? (generative: chor generates jolie code) and what are the restrictions?
+
+
+
+Jolie comes with native primitives for structuring workflows, for example in sequences or parallels
+
+Dynamic error handling for parallel code
+Man registriert Error-Handler bei Bedarf
+
