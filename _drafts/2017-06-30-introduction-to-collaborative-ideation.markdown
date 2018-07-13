@@ -7,7 +7,7 @@ categories: summary
 
 # Introduction to Collaborative Ideation
 
-Today I want to talk about I research area, that recently captured my interest: "Collaborative Ideation". This research field lies mostly in computer science and applies research from sociology, economy and psychology to enhance software driven innovation processes.
+Today I want to talk about a research area, that recently captured my interest: "Collaborative Ideation". This research field lies mostly in HCI (human-computer interaction) and applies research from computer science, design, sociology, economy and psychology to enhance software driven innovation processes.
 
 To understand, what this means, we can break down the term into his two components: **Collaboration** is defined as
 
