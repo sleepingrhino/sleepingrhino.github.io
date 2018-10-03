@@ -13,6 +13,11 @@ TODO: reference to the design article
 
 TODO: Figure
 
+## Simplifications:
+a) No new forms of interaction (touch, vr/ar)
+b) No Domain Specific Approaches
+
+
 ## UX/UI
 
 ## Motivation

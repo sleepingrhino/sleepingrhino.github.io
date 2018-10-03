@@ -50,9 +50,11 @@ Since then, much has happened: People evolved the process, and there are countle
  - Amazon Mechanical Turk
  
 ## Challenges of Collaborative Ideation
+ - Ideas are: simple, mundane,basic, repetitive (duplicates)
  - Enhance Creativity
  - Information Extraction
  - Expert Guidance
+ 
  
 ## Summary
 In this article, I tried to gave a very short definition and overview over the scope of the research area of Collaborative Ideation. Using Wikipedia-Definitions I established the basic scope of the field, then limited the scope in order to get to a practical extent of contexts and challenges. I motivated the current research development by describing the aspects of the history of brainstorming, relevant for the future topics.

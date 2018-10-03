@@ -6,6 +6,8 @@ categories: collaborative-ideation
 ---
 
 # Tackling Idea Generation from the application view
+Link to first article
+
 TODO:
  - Thinking about different modes of ideation
  - Excluding Open/Closed Debate for now (Patents, Licensing, Copyright)
@@ -19,4 +21,3 @@ TODO:
 ## Example C: Tackling Research Questions
 
 ## Summary
- - Link to last article?
