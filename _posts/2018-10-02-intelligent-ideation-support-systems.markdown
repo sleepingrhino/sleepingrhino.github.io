@@ -22,7 +22,20 @@ In our [last publication](https://dl.acm.org/citation.cfm?id=3188485), we asked 
 If the extracted concepts used in ideas are an accurate representation of images in the SIAM sense, we should see the following things in the ideas generated in one session:
  - Concepts get re-used between ideas, as association between ideas and the current active image is inreased,
  - Monitor Failings are shown as increased time between ideas. The concepts after an increased gap in idea submits should change from the ones used before.
+ 
+<!--- TODO use the three confirmed hypotheses from SIAM
+Confirmed Hypotheses:
 
+    H1: successively generated ideas should be clustered (since they all come from the same image). Thus, idea from one semantic category should be followed more often by the idea from the same category than expected by chance.
+    H2: on average, it takes less time to generate semantically related ideas than unrelated ideas. Thus, more time will elapse between generation of two successive ideas from different categories than from same category.
+    H3: it is more efficient to have high levels of clustering of ideas. Thus, clustering should be positively correlated with the number of generated ideas.
+
+    (Part 2):
+    H4: Brainstorming session will be less enjoyable when there are many cognitive failures, because cognitive failures are frustrating.
+    H5: When one experiences many failures, one may feel she/he is not performing well. Thus, failures should be negatively related to performance satisfaction.
+    H6: Failures will be negatively related to expectancy (how many ideas participants thinks she/he could still generate).
+    H7: Low expectancy will lead to a tendency to end the brainstorming task.
+--->
  
 The question now becomes: Can we actually model the cognitive processes during ideation based on the data we have (namely: timings of idea submissions and concepts used)?
 In my naive imagination, we could actually predict concepts with a statistical propability, based on the concepts used by the user so far. If a user has three ideas that mention "car", what is the likelihood of their fourth idea having "car" in it?
