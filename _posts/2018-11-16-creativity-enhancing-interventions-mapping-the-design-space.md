@@ -20,24 +20,38 @@ I based my collection of dimensions was on three base questions: **When?** **How
 
 ### When?
 By what trigger? When in the process?
+
 Related Work: Timely examples
+
 Trigger based on:
- - time
- - fixed events
- - some kind of user model:
-    - average results
-    - explicit user modeling (theory)
-    - machine learning
+
+* time
+* fixed events
+* some kind of user model:
+   * average results
+   * explicit user modeling (theory)
+   * machine learning
 
 ### How?
-Intervention Levels: Size, Position, Color
+Intervention Levels:
+
+* Size
+* Position
+* Color
+* Interaction
 
 #### How long?
 How long? Related to both when and how.
 
 ### What? 
 
-ThinkLets
+* ThinkLets
+* Inspiration vs Fixation
+* Collaboration vs Evaluation Apprehension
+* Visual vs Logical Thinkers
+* Inspiring Images (CeRRI)?
+
+
 
 ## Evaluation
 The next topic in this space is the evaluation of effectiveness of creativity enhancing interventions, which we will look into next time.
